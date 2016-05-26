@@ -28,14 +28,11 @@ def given_i_set_the_section_as_group1(step, section):
     world.section = section
 
 
-
 @step(u'When I set the url in the format "([^"]*)"')
 def when_i_set_the_url_in_the_format_group1(step, setUrl):
     projectId = get_project_id()
     repoId = get_repo_id()
     world.bitBucketUrl = setUrl % (projectId, repoId)
-    print "YES", world.bitBucketUrl
-    print "---:"
 
 
 @step(u'When I make api get request with projectId and roleId in the url')
@@ -54,8 +51,6 @@ def then_verify_author_and_email_of_the_project_committer_exist_in_the_response(
     bitBucketResponse = data['commits'][0]
     commitKeys = bitBucketResponse.keys()
     commitValues = bitBucketResponse.values()
-    print "COMMIT KEYS", commitKeys
-    print "Commit VALUES", commitValues
     assert "author" in commitKeys, "Bitbucket API cannot retrieve author's info correctly"
     if any("@ft.com" in value for value in commitValues):
         assert True, "Committer Email present in retrieved information"
@@ -63,9 +58,9 @@ def then_verify_author_and_email_of_the_project_committer_exist_in_the_response(
         assert False, "Email not present Bitbucket API not working correctly"
 
 
-
 def set_param():
     return world.config_obj.dataload(filename)
+
 
 def get_project_id():
     data = set_param()
@@ -82,6 +77,7 @@ def get_repo_id():
 def get_bitbucket_info(url, headers):
     world.response = requests.get(url=url, headers=headers)
     return world.response
+
 
 def convert_to_json():
     return json.loads(world.response.text)
