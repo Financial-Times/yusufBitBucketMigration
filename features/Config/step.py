@@ -37,12 +37,11 @@ def given_i_set_the_data_as_data(step):
 def given_i_set_the_url(step):
     uri = set_param()
     world.url = uri['config_service_url']['config_url']
-
+    world.url = world.url % world.data['configName']
 
 @step(u'Given I make a call to the api with url "([^"]*)"')
 def given_i_make_a_call_to_the_api_with_url_group1(step, group1):
-    world.res = make_an_api_request(world.url,world.data,world.headers)
-
+    world.res = make_an_api_request(world.url,world.headers)
 
 @step(u'Then the status code should be 200')
 def then_the_status_code_should_be_200(step):
@@ -73,8 +72,8 @@ def set_param():
      return world.config_obj.dataload(filename)
 
 
-def make_an_api_request(url,data,headers):
-    world.response = requests.post(url=url, data=json.dumps(data), headers=headers)
+def make_an_api_request(url,headers):
+    world.response = requests.get(url=url, headers= headers)
     return world.response
 
 

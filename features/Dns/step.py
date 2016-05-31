@@ -50,6 +50,11 @@ def given_i_set_the_data_as_group1(step, data_section):
     world.createData = dat[data_section]
 
 
+@step(u'Then check the dns entry is not available')
+def then_check_the_dns_entry_is_not_available(step):
+    check_request()
+
+
 @step(u'Given I make get zone request to the api with url ""([^"]*)"')
 def given_i_make_get_zone_request_to_the_api_with_url_group1(step, group1):
     world.res = get_zones(world.url, world.headers)
@@ -85,9 +90,7 @@ def when_i_make_api_get_name_and_zone_request(step):
 @step(u'Then verify zone and name exist in dns entry in format "([^"]*)"')
 def then_verify_zone_and_name_exist_in_dns_entry_in_format_group1(step, fqdn):
     data = convert_to_json()
-    dataListOfDict = data['dnsResponse']['mappings']
-    world.resDict = {k: v for item in dataListOfDict for k, v in item.items()}
-    world.fqdn = world.resDict[fqdn]
+    world.fqdn = data[fqdn]
     fqdnResponse = world.fqdn.encode('ascii')
     assert get_name() in fqdnResponse, "Name of dns entry not exist"
     assert get_zone() in fqdnResponse, "Zone not present in dns entry"
@@ -109,14 +112,11 @@ def then_verify_that_dns_get_zone_endpoint_retrieves_an_existing_zone_group1(ste
     assert expected in zones, 'Zone %s not in the zone list' % expected
 
 
-@step(u'Then verify new dns entry in format "([^"]*)"')
-def then_verify_new_dns_entry_in_format_group1(step, fqdn):
+@step(u'Then verify new dns entry response is "([^"]*)"')
+def then_verify_new_dns_entry_in_format_group1(step, response):
     data = convert_to_json()
-    dataListOfDict = data['dnsResponse']['mappings']
-    world.resDict = {k:v for item in dataListOfDict for k,v in item.items()}
-    world.fqdn = world.resDict[fqdn]
-    fqdnResponse = world.fqdn.encode('ascii')
-    assert fqdnResponse == get_fqdn(), "Unable to create new dns record"
+    assert data['response'] == response, "Create DNS not working properly"
+
 
 
 @step(u'Then verify dns record "([^"]*)" is "([^"]*)"')
@@ -137,11 +137,11 @@ def when_i_set_the_dns_name_and_zone_data(step):
     world.zone_name_data = get_data_dict()
 
 
-@step(u'Then verify that empty response is returned')
-def then_verify_that_empty_response_is_returned(step):
+@step(u'Then verify that delete response is "([^"]*)"')
+def then_verify_that_delete_response_is_group1(step, response):
     del_response = convert_to_json()
-    emptyResponseList = del_response['dnsResponse']['mappings']
-    assert len(emptyResponseList) == 0, "DNS Record not deleted"
+    assert del_response['response'] == response, "Delete DNS not working properly"
+
 
 
 def set_param():
@@ -197,4 +197,28 @@ def get_data_dict():
     return data_dict
 
 
+
+def send_request():
+    name = get_name()
+    zone = get_zone()
+    world.checkUrl = "https://dns-api-t.in.ft.com/v2/name/%s/%s" % (zone, name)
+    return world.checkUrl
+
+
+def check_request():
+    world.del_data = get_data_dict()
+    url = send_request()
+    world.resp = requests.get(url=url, headers=world.headers)
+    response_text = json.loads(world.resp.text)
+    world.new_res = ""
+    world.new_text = {}
+    uri = set_param()
+    world.delUri = uri['dns_url']['create']
+    world.delUri
+    if len(response_text) == 4:
+        del_req = api_delete_request(world.delUri, world.del_data, world.headers)
+        del_req_response = json.loads(del_req.text)
+        assert  del_req_response['response'] == 'OK', "Delete operation not working"
+    else:
+        pass
 
