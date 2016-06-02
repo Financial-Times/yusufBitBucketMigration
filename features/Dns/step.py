@@ -27,21 +27,18 @@ def given_i_set_the_headers_with_api_key_as_headers(step):
 def given_i_set_the_url_as_url(step):
     uri = set_param()
     world.url = uri['dns_url']['zones']
-    world.url
 
 
 @step(u'Given I set the create endpoint url as url')
 def given_i_set_the_create_endpoint_url_as_url(step):
     uri = set_param()
     world.createUrl = uri['dns_url']['create']
-    world.createUrl
 
 
 @step(u'Given I set the delete endpoint url as url')
 def given_i_set_the_delete_endpoint_url_as_url(step):
     uri = set_param()
     world.delUrl = uri['dns_url']['create']
-    world.delUrl
 
 
 @step(u'Given I set the data as "([^"]*)"')
@@ -55,7 +52,7 @@ def then_check_the_dns_entry_is_not_available(step):
     check_request()
 
 
-@step(u'Given I make get zone request to the api with url ""([^"]*)"')
+@step(u'Given I make get zone request to the api with url "([^"]*)"')
 def given_i_make_get_zone_request_to_the_api_with_url_group1(step, group1):
     world.res = get_zones(world.url, world.headers)
 
@@ -118,7 +115,6 @@ def then_verify_new_dns_entry_in_format_group1(step, response):
     assert data['response'] == response, "Create DNS not working properly"
 
 
-
 @step(u'Then verify dns record "([^"]*)" is "([^"]*)"')
 def then_verify_dns_record_group1_is_group2(step, typeExpected, recordType):
 
@@ -141,7 +137,6 @@ def when_i_set_the_dns_name_and_zone_data(step):
 def then_verify_that_delete_response_is_group1(step, response):
     del_response = convert_to_json()
     assert del_response['response'] == response, "Delete DNS not working properly"
-
 
 
 def set_param():
@@ -197,11 +192,10 @@ def get_data_dict():
     return data_dict
 
 
-
 def send_request():
     name = get_name()
     zone = get_zone()
-    world.checkUrl = "https://dns-api-t.in.ft.com/v2/name/%s/%s" % (zone, name)
+    world.checkUrl = "https://dns-api.in.ft.com/v2/name/%s/%s" % (zone, name)
     return world.checkUrl
 
 
@@ -210,12 +204,15 @@ def check_request():
     url = send_request()
     world.resp = requests.get(url=url, headers=world.headers)
     response_text = json.loads(world.resp.text)
+    resp_keys = response_text.keys()
     world.new_res = ""
     world.new_text = {}
     uri = set_param()
     world.delUri = uri['dns_url']['create']
-    world.delUri
-    if len(response_text) == 4:
+    if len(response_text) == 4 and 'stackTrace' in resp_keys:
+        print "DNS entry does not ", resp_keys
+    elif len(response_text) == 4 and 'fqdn' in resp_keys:
+        print "DNS entry already exist", resp_keys
         del_req = api_delete_request(world.delUri, world.del_data, world.headers)
         del_req_response = json.loads(del_req.text)
         assert  del_req_response['response'] == 'OK', "Delete operation not working"
