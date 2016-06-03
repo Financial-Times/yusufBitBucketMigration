@@ -1,3 +1,5 @@
 **/**.pyc
 */*.log
 parameters.ini
+terrain.pyc
+config.pyc
