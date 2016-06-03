@@ -26,9 +26,9 @@ config_url = https://config-api.in.ft.com/v1?configName=%s
 ver_url = https://version-api.in.ft.com/v2/version
 
 [dns_url]
-zones = https://dns-api-t.in.ft.com/v2/zone
-create = https://dns-api-t.in.ft.com/v2
-zone_name = https://dns-api-t.in.ft.com/v2/name
+zones = https://dns-api.in.ft.com/v2/zone
+create = https://dns-api.in.ft.com/v2
+zone_name = https://dns-api.in.ft.com/v2/name
 
 
 [dns_a]
@@ -39,8 +39,8 @@ ttl = 1440
 
 [dns_cname]
 zone = alan-api.ft.com
-name = toolingqa
-rdata = environments.com
+name = toolingdns
+rdata = enviroments.com
 ttl = 1440
 
 [bitbucket]
