@@ -209,12 +209,12 @@ def check_request():
     world.new_text = {}
     uri = set_param()
     world.delUri = uri['dns_url']['create']
-    if len(response_text) == 4 and 'stackTrace' in resp_keys:
-        print "DNS entry does not ", resp_keys
-    elif len(response_text) == 4 and 'fqdn' in resp_keys:
+    if len(response_text) == 4 and 'fqdn' in resp_keys:
         print "DNS entry already exist", resp_keys
         del_req = api_delete_request(world.delUri, world.del_data, world.headers)
         del_req_response = json.loads(del_req.text)
+        print "DEL_REQ_RESPONSE", del_req_response
+        print "----"
         assert  del_req_response['response'] == 'OK', "Delete operation not working"
     else:
         pass
