@@ -34,6 +34,11 @@ def given_i_set_the_create_endpoint_url_as_url(step):
     uri = set_param()
     world.createUrl = uri['dns_url']['create']
 
+@step(u'Given I set the update endpoint url as url')
+def given_i_set_the_create_endpoint_url_as_url(step):
+    uri = set_param()
+    world.updateUrl = uri['dns_url']['dns_put']
+
 
 @step(u'Given I set the delete endpoint url as url')
 def given_i_set_the_delete_endpoint_url_as_url(step):
@@ -61,6 +66,12 @@ def given_i_make_get_zone_request_to_the_api_with_url_group1(step, group1):
 def given_i_make_create_dns_entry_request_to_the_api_with_url_group1(step, group1):
     world.res = make_an_api_request(world.createUrl, world.createData, world.headers)
 
+@step(u'Given I make update dns entry request to the api with url "([^"]*)"')
+def given_i_make_update_dns_entry_request_to_the_api_with_url_group1(step, group1):
+    world.res = api_update_request(world.updateUrl, world.createData, world.headers)
+    print "world.res", world.res
+    print "---"
+
 
 @step(u'Given I make a call to the api with url "([^"]*)"')
 def given_i_make_a_call_to_the_api_with_url_group1(step, group1):
@@ -77,6 +88,8 @@ def when_i_set_the_url_in_the_format_group1(step, setUrl):
     name = get_name()
     zone = get_zone()
     world.zoneNameUrl = setUrl % (zone, name)
+    print "WORLD ZONE URL", world.zoneNameUrl
+    print "---"
 
 
 @step(u'When I make api get name and zone request')
@@ -91,6 +104,15 @@ def then_verify_zone_and_name_exist_in_dns_entry_in_format_group1(step, fqdn):
     fqdnResponse = world.fqdn.encode('ascii')
     assert get_name() in fqdnResponse, "Name of dns entry not exist"
     assert get_zone() in fqdnResponse, "Zone not present in dns entry"
+
+
+@step(u'Then verify update information rdata exist in dns entry as "([^"]*)"')
+def then_verify_update_information_rdata_exist_in_dns_entry_as_group1(step, newRdata):
+    data = convert_to_json()
+    updatedValue = data['records'][0]
+    updatedValue = updatedValue.encode('ascii')
+    assert newRdata in updatedValue, "DNS update endpoint failed"
+
 
 
 @step(u'Then the status code should be 200')
@@ -161,6 +183,10 @@ def api_delete_request(url, data,headers):
     world.response = requests.delete(url=url, data=json.dumps(data), headers=headers)
     return world.response
 
+
+def api_update_request(url, data, headers):
+    world.response = requests.put(url=url, data=json.dumps(data), headers=headers)
+    return world.response
 
 def get_fqdn():
     data = set_param()
