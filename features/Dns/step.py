@@ -64,6 +64,10 @@ def given_i_make_get_zone_request_to_the_api_with_url_group1(step, group1):
 
 @step(u'Given I make create dns entry request to the api with url "([^"]*)"')
 def given_i_make_create_dns_entry_request_to_the_api_with_url_group1(step, group1):
+    print 'cREATE URL', type(world.createUrl), world.createUrl
+    print 'CREATEDATA', type(world.createData), world.createData
+    print 'HEADERS', type(world.headers), world.headers
+    print "---"
     world.res = make_an_api_request(world.createUrl, world.createData, world.headers)
 
 @step(u'Given I make update dns entry request to the api with url "([^"]*)"')
