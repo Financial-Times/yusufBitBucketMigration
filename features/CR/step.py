@@ -26,7 +26,7 @@ def given_i_set_up_test_configuration_and_url_as_group1(step, url_section):
     set_change_request_get()
 
 
-@step(u'Given I set up configuration and url as "([^"]*)"')
+@step(u'Given I set up test configuration with invalid dates and url as "([^"]*)"')
 def given_i_set_up_configuration_and_url_as_group1(step, url_section):
     world.url_section = url_section
     set_invalid_dates_get_request()
