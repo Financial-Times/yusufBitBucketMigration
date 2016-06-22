@@ -49,6 +49,7 @@ Feature: Change Request API for change management via Salesforce
         Then status code must be 400
 
     Scenario: Should not be successful with invalid dates from
-        Given I set up configuration and url as "cr_list_url"
+        Given I set up test configuration and url as "cr_list_url"
         Then I get list of CR by calling the api
-        Then status code must be 200
+        Then status code must be 400
+
