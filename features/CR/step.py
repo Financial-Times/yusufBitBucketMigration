@@ -139,6 +139,7 @@ def set_request_time(start_time, end_time):
 
 def set_endpoint_url(url_section):
     world.url = world.load_obj['cr_section'][url_section]
+    print "URL", world.url
     return world.url
 
 
@@ -162,13 +163,13 @@ def convert_response_to_json():
 
 
 def set_scheduled_start_date_time():
-    five_mins_from_now = datetime.now() + timedelta(minutes=4)
+    five_mins_from_now = datetime.now() + timedelta(hours=2)
     scheduled_start_date = format(five_mins_from_now, '%Y-%m-%d %H:%M')
     return scheduled_start_date
 
 
 def set_scheduled_end_date_time():
-    eight_mins_from_now = datetime.now() + timedelta(minutes=8)
+    eight_mins_from_now = datetime.now() + timedelta(hours=3)
     scheduled_end_date = format(eight_mins_from_now, '%Y-%m-%d %H:%M')
     return scheduled_end_date
 
