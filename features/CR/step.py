@@ -54,12 +54,8 @@ def then_i_set_the_group1_and_group2(step, start_time, end_time):
 @step(u'Then a change request api call is made')
 def then_a_change_request_api_call_is_made(step):
     world.change_request_response = make_an_api_request(world.url,world.requestData,world.headers)
-
-
-@step(u'Then I get list of CR by calling the api')
-def then_i_get_list_of_cr_by_calling_the_api_with_from_and_to_dates(step):
-    world.cr_list_by_date_response = make_cr_get_list_api_call(world.url,world.headers)
-    world.change_request_response = make_an_api_request(world.url,world.requestData,world.headers)
+    print "RESPONSE", world.change_request_response.text
+    print  "RESPONSE STATUC CODE", world.change_request_response.status_code
 
 
 @step(u'Then I get list of CR by calling the api')
@@ -137,7 +133,9 @@ def set_change_request_param_system_code():
 def set_request_time(start_time, end_time):
     world.requestData[start_time] = set_scheduled_start_date_time()
     world.requestData[end_time] = set_scheduled_end_date_time()
-
+    print "WORLD START TIME", world.requestData[start_time]
+    print "WORLD END TIME", world.requestData[end_time]
+    print "----"
 
 def set_endpoint_url(url_section):
     world.url = world.load_obj['cr_section'][url_section]
