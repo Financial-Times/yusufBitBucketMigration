@@ -45,21 +45,11 @@ def then_i_set_the_group1_and_group2(step, start_time, end_time):
 
 @step(u'Then a change request api call is made')
 def then_a_change_request_api_call_is_made(step):
-    print "URL", world.url
-    print "DATA", world.requestData
-    print "HEADERS", world.headers
-    print "---"
     world.change_request_response = make_an_api_request(world.url,world.requestData,world.headers)
-    print "WORLD.CHANGE", world.change_request_response.text
-    print "---"
 
 @step(u'Then I get list of CR by calling the api')
 def then_i_get_list_of_cr_by_calling_the_api_with_from_and_to_dates(step):
-    print "URL", world.url
-    print "HEADERS", world.headers
-    print "---"
     world.cr_list_by_date_response = make_cr_get_list_api_call(world.url,world.headers)
-    print "CR LIST", world.cr_list_by_date_response.text
 
 
 
@@ -79,28 +69,19 @@ def then_status_code_must_be_400(step):
 
 @step('Given I set riskProfile "([^"]*)" and changeCategory "([^"]*)"')
 def given_i_set_riskprofile_riskprofile_and_changecategory_changecategroy(step, riskProfile, changeCategory):
-    print "world.DATA BEFORE RISK PROFILE", world.requestData
-    print "riskProfile", riskProfile
     world.requestData['riskProfile']= riskProfile
-    print "PROFILE AFTER SET", world.requestData
-    print "changeCategory", changeCategory
     world.requestData['changeCategory'] = changeCategory
-    print "---"
 
 
 @step(u'Given I set repeatableProcess "([^"]*)" and outage "([^"]*)"')
 def given_i_set_repeatableprocess_repeatableprocess_outages_willThereBeAnOutage(step, repeatableProcess, willThereBeAnOutage):
-    print "repeatableProcess", repeatableProcess
     world.requestData['repeatableProcess'] = repeatableProcess
-    print "willThereBeAnOutage", willThereBeAnOutage
     world.requestData['willThereBeAnOutage'] = willThereBeAnOutage
-    print "---"
+
 
 @step(u'Given I set previouslyConducted "([^"]*)"')
 def given_i_set_previouslyconducted_group1(step, previouslyConducted):
-    print "previosulyConducted", previouslyConducted
     world.requestData['previouslyConducted'] = previouslyConducted
-    print "---"
 
 
 
@@ -117,8 +98,6 @@ def set_change_request_data(data_section):
     world.requestData = world.load_obj[data_section]
     world.url = set_endpoint_url(world.url_section)
     world.headers = set_headers()
-    print "URL", world.url
-    print "----"
 
 
 def set_change_request_get():
@@ -137,8 +116,6 @@ def set_change_request_param_system_code():
 def set_request_time(start_time, end_time):
     world.requestData[start_time] = set_scheduled_start_date_time()
     world.requestData[end_time] = set_scheduled_end_date_time()
-    print "DATA requestData", world.requestData
-    print "----"
 
 
 
@@ -151,13 +128,7 @@ def set_headers():
     return headers
 
 def make_an_api_request(url,data,headers):
-    print "url", type(url)
-    print "data", type(data)
-    print "headers", type(headers)
-    print "---++++++"
     world.response = requests.post(url=url, data=json.dumps(data), headers=headers)
-    print "WOLRD RESPONSE", world.response
-    print "----==="
     return world.response
 
 def make_cr_get_list_api_call(url,headers):
@@ -183,13 +154,9 @@ def set_scheduled_end_date_time():
 def set_from_date():
     from_time = date.today() - timedelta(1)
     from_date = format(from_time, '%Y-%m-%d')
-    print "DATE", from_date
-    print "---"
     return from_date
 
 def set_to_date():
     to_time = date.today()
     to_date = format(to_time, '%Y-%m-%d')
-    print "CURRENT", to_date
-    print "---"
     return to_date
