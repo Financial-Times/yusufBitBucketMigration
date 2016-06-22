@@ -54,3 +54,41 @@ ttl = 1440
 [bitbucket]
 projectId = LAM
 repoId = lambdatest
+
+[cr_section]
+releaselog_url = https://cr-api.in.ft.com/v2/releaselog
+normal_cr_url = https://cr-api.in.ft.com/v2/normal
+cr_list_url = https://cr-api.in.ft.com/v2/list/%s/%s
+
+[release_log_data]
+ownerEmailAddress = yusuf.ogunjimi@ft.com
+summaryOfChange = release log test [ 9MlEqzvM5Zzk4D1jDJYK ]
+changeDescription = change description
+environment = Test
+serviceIds = koncrapi
+notify = true
+notifyChannel = #qa-tooling-crtest
+performTestRun = true
+
+[normal_cr_data]
+ownerEmailAddress = yusuf.ogunjimi@ft.com
+summaryOfChange = normal change request test [ 9MlEqzvM5Zzk4D1jDJYK ]
+changeDescription = normal change
+reasonForChangeDetails = test
+scheduledStartDate = 2016-06-15 11:20
+scheduledEndDate = 2016-06-15 11:25
+changeCategory = Major
+riskProfile = High
+environment = Test
+howHasChangeBeenTested = Test thoroughly
+previouslyConducted = No
+repeatableProcess = Yes
+willThereBeAnOutage = No
+rolloutPlan = rollback
+backoutPlan = backout
+resourceOne = yusuf.ogunjimi@ft.com
+peerReviewer = alan.turner@ft.com
+serviceIds = koncrapi
+notify = true
+notifyChannel = #qa-tooling-crtest
+performTestRun = true
