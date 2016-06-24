@@ -46,9 +46,21 @@ def given_i_set_up_normal_change_request_environment_data_as_group1_and_url_as_g
     set_change_request_data(world.data_section)
 
 
+@step(u'Given I set up fyi change request environment data as "([^"]*)" and url as "([^"]*)"')
+def given_i_set_up_fyi_change_request_environment_data_as_group1_and_url_as_group2(step, data_section , url_section):
+    world.url_section = url_section
+    world.data_section = data_section
+    set_change_request_data(world.data_section)
+
+
 @step(u'Then I set the "([^"]*)" and "([^"]*)"')
 def then_i_set_the_group1_and_group2(step, start_time, end_time):
     set_request_time(start_time, end_time)
+
+
+@step(u'Then I set an invalid "([^"]*)" and "([^"]*)"')
+def then_i_set_an_invalid_group1_and_group2(step, start_time, end_time):
+    set_invalid_time_fyi_normal_cr(start_time, end_time)
 
 
 @step(u'Then a change request api call is made')
@@ -76,6 +88,11 @@ def then_status_code_must_be_400(step):
     assert_equal(world.cr_list_by_date_response.status_code, 400)
 
 
+@step(u'Then status code should be 400')
+def then_status_code_should_be_400(step):
+    assert_equal(world.change_request_response.status_code, 400)
+
+
 @step('Given I set riskProfile "([^"]*)" and changeCategory "([^"]*)"')
 def given_i_set_riskprofile_riskprofile_and_changecategory_changecategroy(step, riskProfile, changeCategory):
 
@@ -92,6 +109,11 @@ def given_i_set_repeatableprocess_repeatableprocess_outages_willThereBeAnOutage(
 @step(u'Given I set previouslyConducted "([^"]*)"')
 def given_i_set_previouslyconducted_group1(step, previouslyConducted):
     world.requestData['previouslyConducted'] = previouslyConducted
+
+
+@step(u'Given I set the field willThereBeAnOutage "([^"]*)"')
+def given_i_set_the_field_willtherebeanoutage_group1(step, willThereBeAnOutage):
+    world.requestData['willThereBeAnOutage'] = willThereBeAnOutage
 
 
 def set_param():
@@ -131,6 +153,10 @@ def set_change_request_param_system_code():
 def set_request_time(start_time, end_time):
     world.requestData[start_time] = set_scheduled_start_date_time()
     world.requestData[end_time] = set_scheduled_end_date_time()
+
+def set_invalid_time_fyi_normal_cr(start_time, end_time):
+    world.requestData[start_time] = set_scheduled_end_date_time()
+    world.requestData[end_time] = set_scheduled_start_date_time()
 
 
 def set_endpoint_url(url_section):

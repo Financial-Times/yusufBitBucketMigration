@@ -53,3 +53,28 @@ Feature: Change Request API for change management via Salesforce
         Then I get list of CR by calling the api
         Then status code must be 400
 
+    Scenario: Should create a CR for informational purpose without approval
+        Given I set up fyi change request environment data as "fyi_data" and url as "fyi_cr_url"
+        Given I set riskProfile "<riskProfile>" and changeCategory "<changeCategory>"
+        Given I set the field willThereBeAnOutage "<willThereBeAnOutage>"
+        Then I set the "scheduledStartDate" and "scheduledEndDate"
+        Then a change request api call is made
+        Then the status code should be 200
+
+    Examples:
+        | riskProfile   | changeCategory   | willThereBeAnOutage
+        | Low           |   Major          | Yes
+        | Medium        |   Minor          | No
+        | High          |   Significant    | Yes
+        | Medium        |   Major          | Yes
+        | High          |   Minor          | No
+        | Low           |   Significant    | No
+        | High          |   Major          | Yes
+        | Low           |   Minor          | Yes
+        | Medium        |   Significant    | No
+
+    Scenario: Should not creat fyi change request with invalid data
+        Given I set up fyi change request environment data as "fyi_data" and url as "fyi_cr_url"
+        Then I set an invalid "scheduledStartDate" and "scheduledEndDate"
+        Then a change request api call is made
+        Then status code should be 400
