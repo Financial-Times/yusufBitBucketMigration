@@ -59,6 +59,7 @@ repoId = lambdatest
 releaselog_url = https://cr-api.in.ft.com/v2/releaselog
 normal_cr_url = https://cr-api.in.ft.com/v2/normal
 cr_list_url = https://cr-api.in.ft.com/v2/list/%s/%s
+fyi_cr_url = https://cr-api.in.ft.com/v2/fyi
 
 [release_log_data]
 ownerEmailAddress = yusuf.ogunjimi@ft.com
@@ -92,3 +93,20 @@ serviceIds = koncrapi
 notify = true
 notifyChannel = #qa-tooling-crtest
 performTestRun = true
+
+[fyi_data]
+ownerEmailAddress = yusuf.ogunjimi@ft.com
+summaryOfChange = For Your Information [ 9MlEqzvM5Zzk4D1jDJYK ]
+changeDescription = Informational
+reasonForChangeDetails = test
+scheduledStartDate = 2016-06-23 13:10
+scheduledEndDate  = 2016-06-23 13:20
+changeCategory = Major
+riskProfile = High
+environment = Test
+willThereBeAnOutage = No
+resourceOne = yusuf.ogunjimi@ft.com
+serviceIds = koncrapi
+notify = true
+notifyChannel = #qa-tooling-crtest
+performTestRun = true 
