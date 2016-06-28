@@ -73,8 +73,20 @@ Feature: Change Request API for change management via Salesforce
         | Low           |   Minor          | Yes
         | Medium        |   Significant    | No
 
-    Scenario: Should not creat fyi change request with invalid data
+    Scenario: Should not create fyi change request with invalid data
         Given I set up fyi change request environment data as "fyi_data" and url as "fyi_cr_url"
         Then I set an invalid "scheduledStartDate" and "scheduledEndDate"
+        Then a change request api call is made
+        Then status code should be 400
+
+    Scenario: Should create an emergency post release CR
+        Given I set up emergency request environment data as "emergency_data" and url as "emergency_url"
+        Then I set emergency CR "actualStartDate" and "actualEndDate"
+        Then a change request api call is made
+        Then the status code should be 200
+
+    Scenario: Should not create an emergency post release CR with invalid dates
+        Given I set up emergency request environment data as "emergency_data" and url as "emergency_url"
+        Then I set invalid emergency CR "actualStartDate" and "actualEndDate"
         Then a change request api call is made
         Then status code should be 400

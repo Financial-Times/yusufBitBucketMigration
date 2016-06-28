@@ -60,6 +60,7 @@ releaselog_url = https://cr-api.in.ft.com/v2/releaselog
 normal_cr_url = https://cr-api.in.ft.com/v2/normal
 cr_list_url = https://cr-api.in.ft.com/v2/list/%s/%s
 fyi_cr_url = https://cr-api.in.ft.com/v2/fyi
+emergency_url = https://cr-api.in.ft.com/v2/emergency
 
 [release_log_data]
 ownerEmailAddress = yusuf.ogunjimi@ft.com
@@ -110,3 +111,24 @@ serviceIds = koncrapi
 notify = true
 notifyChannel = #qa-tooling-crtest
 performTestRun = true 
+
+[emergency_data]
+ownerEmailAddress = yusuf.ogunjimi@ft.com
+summaryOfChange = Emergency Change Request
+changeDescription = Emergency
+reasonForChangeDetails = test
+environment = Test
+changeCategory = Major
+howHasChangeBeenTested = Tested by team members
+wasThereAnOutage = No
+whichServicesWereEffected = Swagger, Lambda
+rolloutPlan = rollout plan
+backoutPlan = backout plan
+resourceOne = yusuf.ogunjimi@ft.com
+managerNotified = yusuf.ogunjimi@ft.com
+actualStartDate = 2016-06-23 13:10
+actualEndDate =   2016-06-23 13:15
+serviceIds = koncrapi
+notify = true
+notifyChannel = #qa-tooling-crtest
+performTestRun = true

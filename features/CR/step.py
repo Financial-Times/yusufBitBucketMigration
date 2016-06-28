@@ -46,6 +46,13 @@ def given_i_set_up_normal_change_request_environment_data_as_group1_and_url_as_g
     set_change_request_data(world.data_section)
 
 
+@step(u'Given I set up emergency request environment data as "([^"]*)" and url as "([^"]*)"')
+def given_i_set_up_emergency_request_environment_data_as_group1_and_url_as_group2(step, data_section, url_section):
+    world.url_section = url_section
+    world.data_section = data_section
+    set_change_request_data(world.data_section)
+
+
 @step(u'Given I set up fyi change request environment data as "([^"]*)" and url as "([^"]*)"')
 def given_i_set_up_fyi_change_request_environment_data_as_group1_and_url_as_group2(step, data_section , url_section):
     world.url_section = url_section
@@ -63,9 +70,22 @@ def then_i_set_an_invalid_group1_and_group2(step, start_time, end_time):
     set_invalid_time_fyi_normal_cr(start_time, end_time)
 
 
+@step(u'Then I set emergency CR "([^"]*)" and "([^"]*)"')
+def then_i_set_emergency_cr_group1_and_group2(step, start_time, end_time):
+    set_emergency_cr_time(start_time, end_time)
+
+
+@step(u'Then I set invalid emergency CR "([^"]*)" and "([^"]*)"')
+def then_i_set_invalid_emergency_cr_group1_and_group2(step, start_time, end_time):
+    set_invalid_emergency_cr_time(start_time, end_time)
+
+
+
+
 @step(u'Then a change request api call is made')
 def then_a_change_request_api_call_is_made(step):
     world.change_request_response = make_an_api_request(world.url,world.requestData,world.headers)
+
 
 
 @step(u'Then I get list of CR by calling the api')
@@ -95,7 +115,6 @@ def then_status_code_should_be_400(step):
 
 @step('Given I set riskProfile "([^"]*)" and changeCategory "([^"]*)"')
 def given_i_set_riskprofile_riskprofile_and_changecategory_changecategroy(step, riskProfile, changeCategory):
-
     world.requestData['riskProfile']= riskProfile
     world.requestData['changeCategory'] = changeCategory
 
@@ -154,9 +173,20 @@ def set_request_time(start_time, end_time):
     world.requestData[start_time] = set_scheduled_start_date_time()
     world.requestData[end_time] = set_scheduled_end_date_time()
 
+
 def set_invalid_time_fyi_normal_cr(start_time, end_time):
     world.requestData[start_time] = set_scheduled_end_date_time()
     world.requestData[end_time] = set_scheduled_start_date_time()
+
+
+def set_emergency_cr_time(start_time, end_time):
+    world.requestData[start_time] = set_actual_start_date_time()
+    world.requestData[end_time] = set_actual_end_date_time()
+
+
+def set_invalid_emergency_cr_time(start_time, end_time):
+    world.requestData[start_time] = set_actual_end_date_time()
+    world.requestData[end_time] = set_actual_start_date_time()
 
 
 def set_endpoint_url(url_section):
@@ -189,10 +219,22 @@ def set_scheduled_start_date_time():
     return scheduled_start_date
 
 
+def set_actual_start_date_time():
+    actual_start = datetime.now() - timedelta(hours=3)
+    actualStartTime = format(actual_start, '%Y-%m-%d %H:%M')
+    return actualStartTime
+
 def set_scheduled_end_date_time():
     eight_mins_from_now = datetime.now() + timedelta(hours=3)
     scheduled_end_date = format(eight_mins_from_now, '%Y-%m-%d %H:%M')
     return scheduled_end_date
+
+
+def set_actual_end_date_time():
+    actual_end = datetime.now() - timedelta(hours=2)
+    actualEndTime = format(actual_end, '%Y-%m-%d %H:%M')
+    return actualEndTime
+
 
 
 def set_from_date():
