@@ -61,6 +61,7 @@ normal_cr_url = https://cr-api.in.ft.com/v2/normal
 cr_list_url = https://cr-api.in.ft.com/v2/list/%s/%s
 fyi_cr_url = https://cr-api.in.ft.com/v2/fyi
 emergency_url = https://cr-api.in.ft.com/v2/emergency
+get_url = https://cr-api.in.ft.com/v2/%s
 
 [release_log_data]
 ownerEmailAddress = yusuf.ogunjimi@ft.com
