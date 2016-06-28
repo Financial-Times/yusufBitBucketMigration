@@ -26,6 +26,14 @@ def given_i_set_up_test_configuration_and_url_as_group1(step, url_section):
     set_change_request_get()
 
 
+@step(u'Given I set up configuration CR ID "([^"]*)" and url as "([^"]*)"')
+def given_i_set_up_configuration_cr_id_group1_and_url_as_group2(step, cr_id, url_section):
+    world.url_section = url_section
+    world.cr_id = cr_id
+    get_change_request_details()
+
+
+
 @step(u'Given I set up test configuration with invalid dates and url as "([^"]*)"')
 def given_i_set_up_configuration_and_url_as_group1(step, url_section):
     world.url_section = url_section
@@ -80,17 +88,20 @@ def then_i_set_invalid_emergency_cr_group1_and_group2(step, start_time, end_time
     set_invalid_emergency_cr_time(start_time, end_time)
 
 
-
-
 @step(u'Then a change request api call is made')
 def then_a_change_request_api_call_is_made(step):
     world.change_request_response = make_an_api_request(world.url,world.requestData,world.headers)
 
 
-
 @step(u'Then I get list of CR by calling the api')
 def then_i_get_list_of_cr_by_calling_the_api_with_from_and_to_dates(step):
     world.cr_list_by_date_response = make_cr_get_list_api_call(world.url,world.headers)
+
+@step(u'Then I make api call to get endpoint')
+def then_i_make_api_call_to_get_endpoint(step):
+    world.cr_details_response = make_cr_get_list_api_call(world.url, world.headers)
+    print "DETAILS", world.cr_details_response
+    print "---"
 
 
 @step(u'Then the status code should be 200')
@@ -101,6 +112,17 @@ def then_the_status_code_should_be_200(step):
 @step(u'Then status code must be 200')
 def then_status_code_must_be_200(step):
     assert_equal(world.cr_list_by_date_response.status_code, 200)
+
+
+@step(u'Verify status code is 200')
+def verify_status_code_is_200(step):
+    assert_equal(world.cr_details_response.status_code, 200)
+
+
+@step(u'Verify status code is 400')
+def verify_status_code_is_200(step):
+    assert_equal(world.cr_details_response.status_code, 400)
+
 
 
 @step(u'Then status code must be 400')
@@ -154,6 +176,15 @@ def set_change_request_get():
     world.url = url % (set_from_date(), set_to_date())
     world.headers = set_headers()
 
+
+def get_change_request_details():
+    world.load_obj = set_param()
+    url = set_endpoint_url(world.url_section)
+    world.url = url % world.cr_id
+    world.headers = set_headers()
+    print "WORLD URL", world.url
+    print "WORLD HEADERS", world.headers
+    print "---"
 
 def set_invalid_dates_get_request():
     world.load_obj = set_param()
