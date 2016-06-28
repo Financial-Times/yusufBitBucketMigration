@@ -90,3 +90,14 @@ Feature: Change Request API for change management via Salesforce
         Then I set invalid emergency CR "actualStartDate" and "actualEndDate"
         Then a change request api call is made
         Then status code should be 400
+
+
+    Scenario: Should return the detail of a CR ID specified
+        Given I set up configuration CR ID "CR00027252" and url as "get_url"
+        Then I make api call to get endpoint
+        Verify status code is 200
+
+    Scenario: Should fail to return the CR ID details
+        Given I set up configuration CR ID "CR00000000" and url as "get_url"
+        Then I make api call to get endpoint
+        Verify status code is 400
