@@ -100,8 +100,6 @@ def then_i_get_list_of_cr_by_calling_the_api_with_from_and_to_dates(step):
 @step(u'Then I make api call to get endpoint')
 def then_i_make_api_call_to_get_endpoint(step):
     world.cr_details_response = make_cr_get_list_api_call(world.url, world.headers)
-    print "DETAILS", world.cr_details_response
-    print "---"
 
 
 @step(u'Then the status code should be 200')
@@ -182,9 +180,7 @@ def get_change_request_details():
     url = set_endpoint_url(world.url_section)
     world.url = url % world.cr_id
     world.headers = set_headers()
-    print "WORLD URL", world.url
-    print "WORLD HEADERS", world.headers
-    print "---"
+
 
 def set_invalid_dates_get_request():
     world.load_obj = set_param()
@@ -199,6 +195,7 @@ def set_change_request_param_system_code():
     new_url = old_url % (set_from_date(), set_to_date())
     world.url = new_url + world.system_code
     world.headers = set_headers()
+
 
 def set_request_time(start_time, end_time):
     world.requestData[start_time] = set_scheduled_start_date_time()
